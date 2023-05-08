@@ -1,5 +1,5 @@
 import G03.Contenedores;
-import G03.Hub;
+import G03.Puerto;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -17,13 +17,14 @@ public class PanelVisual extends JFrame implements ActionListener {
     private JTextField textFile_Descripcion;
     private JTextField textField_EmpresaReceptora;
     private JTextField textField_EmpresaEmisora;
-    private JTextField textField_Aduana;
-    private JTextField textField_Prioridad;
     private JTextField textField_Columna;
     private JTextField textField_NumPais;
     private JPanel PanelMain;
     private JTextField textField_Texto;
     private JTextArea textAreaPlano;
+    private JTextArea textAreaDatos;
+    private JComboBox comboBoxPrioridad;
+    private JComboBox comboBoxAduana;
 
     public PanelVisual() {
         setContentPane(PanelMain);
@@ -39,25 +40,26 @@ public class PanelVisual extends JFrame implements ActionListener {
         desapilarContenedorButton.addActionListener(this);
     }
 
-    Hub HC=new Hub();
+    Puerto HC=new Puerto();
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource()==apilarContenedorButton) {
-            Contenedores Cont = new Contenedores(Integer.parseInt(textField_Id.getText()), Integer.parseInt(textField_Peso.getText()), textField_Pais.getText(), Boolean.parseBoolean(textField_Aduana.getText()), Integer.parseInt(textField_Prioridad.getText()), textFile_Descripcion.getText().toCharArray(), textField_EmpresaEmisora.getText().toCharArray(), textField_EmpresaReceptora.getText().toCharArray());
-            HC.ApilarContenedor(Cont);
+            Contenedores Cont = new Contenedores(Integer.parseInt(textField_Id.getText()), Integer.parseInt(textField_Peso.getText()), textField_Pais.getText(), Boolean.parseBoolean(comboBoxAduana.getModel().getSelectedItem().toString()), Integer.parseInt(comboBoxPrioridad.getModel().getSelectedItem().toString()), textFile_Descripcion.getText().toCharArray(), textField_EmpresaEmisora.getText().toCharArray(), textField_EmpresaReceptora.getText().toCharArray());
+            HC.Apilar(Cont);
             textField_Texto.setText("Se ha apilado el contenedor correctamente");
         }
         if (e.getSource()==desapilarContenedorButton){
-            HC.desapila_contenedor(Integer.parseInt(textField_Columna.getText())-1);
+            HC.Desapilar(Integer.parseInt(textField_Columna.getText())-1);
+            textField_Texto.setText("Se ha desapilado el contenedor correctamente");
         }
         if (e.getSource()==mostrarPlanoDelHubButton){
-            textAreaPlano.setText(HC.PlanoHub());
+            textAreaPlano.setText(HC.Plano());
         }
         if (e.getSource()==mostrarDatosDeUnButton){
-            HC.mostrar_datos(Integer.parseInt(textField_Id.getText()));
+            textAreaDatos.setText(HC.Datos(Integer.parseInt(textField_Id.getText())));
         }
         if (e.getSource()==mostrarNúmeroDeContenedoresButton){
-            textField_NumPais.setText(HC.contenedores_pais(textField_NumPais.getText()));
+            textField_NumPais.setText(HC.Pais(textField_NumPais.getText()));
         }
     }
 }
