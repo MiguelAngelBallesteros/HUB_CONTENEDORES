@@ -23,6 +23,7 @@ public class PanelVisual extends JFrame implements ActionListener {
     private JTextField textField_NumPais;
     private JPanel PanelMain;
     private JTextField textField_Texto;
+    private JTextArea textAreaPlano;
 
     public PanelVisual() {
         setContentPane(PanelMain);
@@ -50,7 +51,7 @@ public class PanelVisual extends JFrame implements ActionListener {
             HC.desapila_contenedor(Integer.parseInt(textField_Columna.getText())-1);
         }
         if (e.getSource()==mostrarPlanoDelHubButton){
-            HC.PlanoHub();
+            textAreaPlano.setText(HC.PlanoHub());
         }
         if (e.getSource()==mostrarDatosDeUnButton){
             HC.mostrar_datos(Integer.parseInt(textField_Id.getText()));
